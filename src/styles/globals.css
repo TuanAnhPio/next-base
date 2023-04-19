@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.click-here {
+    color: #096DD9;
+    text-decoration-line: underline;
+    cursor: pointer;
+}
+
+body > div:first-child,
+div#__next,
+div#__next > div {
+    height: 100%;
+}
