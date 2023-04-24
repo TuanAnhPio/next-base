@@ -1,34 +1,34 @@
-import { Checkbox, Input } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import Button from "@/components/common/button";
-import { Controller, FormProvider, useForm } from "react-hook-form";
-import axiosInstance from "@/service/axios";
-import Cookies from "js-cookie";
-import { useRouter } from "next/router";
-import PageHeader from "@/components/PageHeader";
-import React from "react";
-import PageFooter from "@/components/PageFooter";
+import { Checkbox, Input } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
+import Button from '@/components/common/button'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
+import axiosInstance from '@/service/axios'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
+import PageHeader from '@/components/PageHeader'
+import React from 'react'
+import PageFooter from '@/components/PageFooter'
 
 type IFormInput = {
-	username: string;
-	password: string;
-};
+	username: string
+	password: string
+}
 
 type LoginResponseData = {
-	access_token: string;
-};
+	access_token: string
+}
 export default function Login() {
-	const methods = useForm<IFormInput>();
-	const { control, handleSubmit } = methods;
-	const router = useRouter();
+	const methods = useForm<IFormInput>()
+	const { control, handleSubmit } = methods
+	const router = useRouter()
 
 	const onLogin = async (data: IFormInput) => {
-		const res = await axiosInstance.post<LoginResponseData>("auth/login", data);
+		const res = await axiosInstance.post<LoginResponseData>('auth/login', data)
 		if (res.data.access_token) {
-			Cookies.set("access_token", res.data.access_token);
-			await router.push("/");
+			Cookies.set('access_token', res.data.access_token)
+			await router.push('/')
 		}
-	};
+	}
 
 	return (
 		<div className="flex flex-col">
@@ -82,7 +82,8 @@ export default function Login() {
 						</div>
 						<div className="mt-6 text-center">
 							<span>
-								パスワードを忘れた方は<span className="click-here">こちら</span>
+								パスワードを忘れた方は
+								<span className="click-here">こちら</span>
 							</span>
 						</div>
 						<div className="mt-6">未登録の方はこちら</div>
@@ -95,5 +96,5 @@ export default function Login() {
 			</div>
 			<PageFooter />
 		</div>
-	);
+	)
 }
