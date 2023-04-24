@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export const AppoinmentIcon = () => {
 	return (
@@ -14,5 +14,5 @@ export const AppoinmentIcon = () => {
 				fill="#096DD9"
 			/>
 		</svg>
-	);
-};
+	)
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export const DashboardIcon = () => {
 	return (
@@ -16,5 +16,5 @@ export const DashboardIcon = () => {
 				fill="#096DD9"
 			/>
 		</svg>
-	);
-};
+	)
+}

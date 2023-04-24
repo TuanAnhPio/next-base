@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button } from 'antd'
 
 export default function PageHeader() {
 	return (
@@ -23,5 +23,5 @@ export default function PageHeader() {
 				`}
 			</style>
 		</div>
-	);
+	)
 }

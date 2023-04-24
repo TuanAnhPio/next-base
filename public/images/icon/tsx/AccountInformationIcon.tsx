@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export const AccountInformationIcon = () => {
 	return (
@@ -14,5 +14,5 @@ export const AccountInformationIcon = () => {
 				fill="#096DD9"
 			/>
 		</svg>
-	);
-};
+	)
+}

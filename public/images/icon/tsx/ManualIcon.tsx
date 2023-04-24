@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export const ManualIcon = () => {
 	return (
@@ -16,5 +16,5 @@ export const ManualIcon = () => {
 				fill="#096DD9"
 			/>
 		</svg>
-	);
-};
+	)
+}
