@@ -67,7 +67,7 @@ export default function AppLayout({ children }: Props) {
 							getItem(
 								<div className="text-secondary">{e.name}</div>,
 								e.key,
-								<div className="px-[10px]">{e.icon}</div>
+								<div className="pr-[10px] h-full">{e.icon}</div>
 							)
 						)}
 					/>
