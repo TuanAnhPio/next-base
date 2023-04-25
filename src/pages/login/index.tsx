@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import PageHeader from '@/components/PageHeader'
 import React from 'react'
 import PageFooter from '@/components/PageFooter'
+import Link from 'next/link'
 
 type IFormInput = {
 	username: string
@@ -88,8 +89,12 @@ export default function Login() {
 						</div>
 						<div className="mt-6">未登録の方はこちら</div>
 						<div className="mt-3 grid justify-center grid-cols-2">
-							<span className="click-here">会員登録(一般)</span>
-							<span className="click-here">会員登録(税理士)</span>
+							<Link href="/register/member" className="click-here">
+								会員登録(一般)
+							</Link>
+							<Link href="/register/taxaccount" className="click-here">
+								会員登録(税理士)
+							</Link>
 						</div>
 					</div>
 				</FormProvider>
