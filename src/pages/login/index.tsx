@@ -84,7 +84,9 @@ export default function Login() {
 						<div className="mt-6 text-center">
 							<span>
 								パスワードを忘れた方は
-								<span className="click-here">こちら</span>
+								<Link href="/forgot-password/identify" className="click-here">
+									こちら
+								</Link>
 							</span>
 						</div>
 						<div className="mt-6">未登録の方はこちら</div>

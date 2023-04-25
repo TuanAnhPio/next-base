@@ -8,9 +8,7 @@ export const PreLayout = ({ children }: Props) => {
 	return (
 		<div className="flex flex-col">
 			<PageHeader />
-			<div className="flex login-container mt-auto justify-center items-center">
-				{children}
-			</div>
+			<div className="flex login-container justify-center">{children}</div>
 			<PageFooter />
 		</div>
 	)
