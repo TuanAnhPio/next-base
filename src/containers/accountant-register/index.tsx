@@ -8,25 +8,20 @@ import { Controller, useForm } from 'react-hook-form'
 type IFormInput = {
 	companyName: string
 	companyNameFurigana: string
-	companyCode: string
-	representName: string
-	representNameFurigana: string
+	representerName: string
+	representerNameFurigana: string
 	postCode: string
 	province: string
 	city: string
 	address: string
 	phone: string
-	monthFinance: number
 	personInChargeName: string
 	personInChargeNameFurigana: string
-	hasAdvisoryTax: boolean
-	isGoodReporting: boolean
-	isCorrespondCashHandling: boolean
 	email: string
 	password: string
 }
 
-export const MemberRegisterContainer = () => {
+export const AccountRegisterContainer = () => {
 	const methods = useForm<IFormInput>()
 	const { control, handleSubmit } = methods
 
@@ -40,7 +35,7 @@ export const MemberRegisterContainer = () => {
 							title: <Link href="/login">ログイン</Link>,
 						},
 						{
-							title: <Link href="/register/member">会員登録(一般)</Link>,
+							title: <Link href="/register/accountant">会員登録(税理士)</Link>,
 						},
 					]}
 				/>
@@ -55,10 +50,10 @@ export const MemberRegisterContainer = () => {
 					>
 						<div className=" text-base">
 							<div className="text-2xl font-bold text-center">
-								「会員登録(一般)」
+								「会員登録(税理士)」
 							</div>
 							<div className="mt-6 pr-[160px]">
-								<Form.Item label="法人名" name="companyName" required>
+								<Form.Item label="会計事務所名" name="companyName" required>
 									<Controller
 										control={control}
 										name="companyName"
@@ -78,24 +73,22 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="法人番号" name="companyCode" required>
+								<Form.Item label="代表税理士名" name="representerName" required>
 									<Controller
 										control={control}
-										name="companyCode"
-										render={({ field }) => (
-											<Input className="rounded-sm" {...field} />
-										)}
-									/>
-								</Form.Item>
-
-								<Form.Item label="代表者名" name="representName" required>
-									<Controller
-										control={control}
-										name="representName"
+										name="representerName"
 										render={({ field }) => (
 											<div className="flex justify-between">
-												<Input className="rounded-sm w-[49%]" {...field} />
-												<Input className="rounded-sm w-[49%]" {...field} />
+												<Input
+													placeholder="ユーザー名"
+													className="rounded-sm w-[49%]"
+													{...field}
+												/>
+												<Input
+													placeholder="ユーザー名"
+													className="rounded-sm w-[49%]"
+													{...field}
+												/>
 											</div>
 										)}
 									/>
@@ -103,12 +96,12 @@ export const MemberRegisterContainer = () => {
 
 								<Form.Item
 									label="フリガナ"
-									name="representNameFurigana"
+									name="representerNameFurigana"
 									required
 								>
 									<Controller
 										control={control}
-										name="representNameFurigana"
+										name="representerNameFurigana"
 										render={({ field }) => (
 											<div className="flex justify-between">
 												<Input className="rounded-sm w-[49%]" {...field} />
@@ -205,35 +198,9 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="決算月" name="monthFinance" required>
-									<Controller
-										control={control}
-										name="monthFinance"
-										render={({ field }) => (
-											<div className="w-full">
-												<Select
-													style={{ display: 'flex', width: '50%' }}
-													onChange={field.onChange}
-													options={[
-														{ value: '1', label: 'いちがつ' },
-														{ value: '2', label: 'にがつ' },
-														{ value: '3', label: 'さんがつ' },
-														{ value: '4', label: 'しがつ' },
-														{ value: '5', label: 'ごがつ' },
-														{ value: '6', label: 'ろくがつ' },
-														{ value: '7', label: 'しちがつ' },
-														{ value: '8', label: 'はちがつ' },
-														{ value: '9', label: 'くがつ' },
-														{ value: '10', label: 'じゅうがつ' },
-														{ value: '11', label: 'じゅういちがつ' },
-														{ value: '12', label: 'じゅうにがつ' },
-													]}
-												/>
-											</div>
-										)}
-									/>
-								</Form.Item>
-
+								<div className=" pl-12 pt-10 pb-10">
+									代表者と異なる場合は入力して下さい。
+								</div>
 								<Form.Item
 									label="ご担当者名"
 									name="personInChargeName"
@@ -263,75 +230,6 @@ export const MemberRegisterContainer = () => {
 											<div className="flex justify-between">
 												<Input className="rounded-sm w-[49%]" />
 												<Input className="rounded-sm w-[49%]" />
-											</div>
-										)}
-									/>
-								</Form.Item>
-
-								<Form.Item
-									label="*顧問税理士の有無"
-									name="hasAdvisoryTax"
-									required
-								>
-									<Controller
-										control={control}
-										name="hasAdvisoryTax"
-										render={({ field }) => (
-											<div className="w-full">
-												<Radio.Group
-													defaultValue={true}
-													onChange={field.onChange}
-													value={field.value}
-												>
-													<Radio value={true}>あり</Radio>
-													<Radio value={false}>なし</Radio>
-												</Radio.Group>
-											</div>
-										)}
-									/>
-								</Form.Item>
-
-								<Form.Item
-									label="優良申告法人の該当の有無"
-									name="hasAdvisoryTax"
-									required
-								>
-									<Controller
-										control={control}
-										name="hasAdvisoryTax"
-										render={({ field }) => (
-											<div className="w-full">
-												<Radio.Group
-													defaultValue={true}
-													onChange={field.onChange}
-													value={field.value}
-												>
-													<Radio value={true}>はい</Radio>
-													<Radio value={false}>いいえ</Radio>
-												</Radio.Group>
-											</div>
-										)}
-									/>
-								</Form.Item>
-
-								<Form.Item
-									label="現金取扱業種目(現収法人)に該当"
-									name="hasAdvisoryTax"
-									required
-								>
-									<Controller
-										control={control}
-										name="hasAdvisoryTax"
-										render={({ field }) => (
-											<div className="w-full">
-												<Radio.Group
-													onChange={field.onChange}
-													value={field.value}
-													defaultValue={true}
-												>
-													<Radio value={true}>する</Radio>
-													<Radio value={false}>しない</Radio>
-												</Radio.Group>
 											</div>
 										)}
 									/>
@@ -373,7 +271,8 @@ export const MemberRegisterContainer = () => {
 
 							<div className="mt-6 text-center">
 								<Checkbox className="underline">
-									会員規約および個人情報の取り扱いについて会員規約、個人情報の取り扱いについて同意する
+									会員規約および個人情報の取り扱いについて
+									会員規約、個人情報の取り扱いについて同意する
 								</Checkbox>
 							</div>
 							<div className="text-center mt-6"></div>

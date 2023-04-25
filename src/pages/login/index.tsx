@@ -92,7 +92,7 @@ export default function Login() {
 							<Link href="/register/member" className="click-here">
 								会員登録(一般)
 							</Link>
-							<Link href="/register/taxaccount" className="click-here">
+							<Link href="/register/accountant" className="click-here">
 								会員登録(税理士)
 							</Link>
 						</div>
