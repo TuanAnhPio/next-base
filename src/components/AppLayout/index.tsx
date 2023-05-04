@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Breadcrumb, Layout, Menu, MenuProps, theme } from 'antd'
 import useProfile from '@/hooks/useProfile'
 import MainMenu from '@/components/AppLayout/menu'
+import { useRouter } from 'next/router'
 
 const { Sider } = Layout
 type MenuItem = Required<MenuProps>['items'][number]
@@ -30,6 +31,7 @@ function getItem(
 
 export default function AppLayout({ children }: Props) {
 	const [collapsed, setCollapsed] = useState(false)
+	const router = useRouter()
 
 	const profile = useProfile()
 	return (
@@ -63,6 +65,7 @@ export default function AppLayout({ children }: Props) {
 						defaultSelectedKeys={['1']}
 						defaultOpenKeys={['sub1']}
 						style={{ height: '100%' }}
+						// onClick={(e) => router.push(e.key)}
 						items={MainMenu.map((e) =>
 							getItem(
 								<div className="text-secondary">{e.name}</div>,

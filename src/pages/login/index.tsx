@@ -1,4 +1,4 @@
-import { Checkbox, Input } from 'antd'
+import { Checkbox, Form, Input } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import Button from '@/components/common/button'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
@@ -9,6 +9,8 @@ import PageHeader from '@/components/PageHeader'
 import React from 'react'
 import PageFooter from '@/components/PageFooter'
 import Link from 'next/link'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 type IFormInput = {
 	username: string
@@ -19,17 +21,39 @@ type LoginResponseData = {
 	access_token: string
 }
 export default function Login() {
-	const methods = useForm<IFormInput>()
-	const { control, handleSubmit } = methods
+	const schema = yup.object().shape({
+		username: yup
+			.string()
+			.email('無効な電子メール')
+			.required('ユーザー名を入力してください'),
+		password: yup.string().required('パスワードを入力してください'),
+		// .min(8, 'パスワードは8文字以上でなければなりません')
+		// .max(16, 'パスワードは最大 16 文字です')
+		// .matches(
+		// 	/^(?=.*[A-Z])/,
+		// 	'パスワードには少なくとも 1 つの大文字が含まれている必要があります'
+		// ),
+	})
+	const methods = useForm<IFormInput>({
+		resolver: yupResolver(schema),
+	})
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = methods
 	const router = useRouter()
 
 	const onLogin = async (data: IFormInput) => {
-		const res = await axiosInstance.post<LoginResponseData>('auth/login', data)
-		if (res.data.access_token) {
-			Cookies.set('access_token', res.data.access_token)
-			await router.push('/')
-		}
+		console.log(data)
+		// const res = await axiosInstance.post<LoginResponseData>('auth/login', data)
+		// if (res.data.access_token) {
+		// 	Cookies.set('access_token', res.data.access_token)
+		// 	await router.push('/')
+		// }
 	}
+
+	console.log(errors)
 
 	return (
 		<div className="flex flex-col">
@@ -41,33 +65,49 @@ export default function Login() {
 							「税務調査ドック」
 						</div>
 						<div className="mt-6">
-							<Controller
-								control={control}
-								render={({ field }) => (
-									<Input
-										size="large"
-										placeholder="ユーザー名"
-										prefix={<UserOutlined />}
-										className="rounded-sm"
-										{...field}
-									/>
-								)}
-								name="username"
-							/>
+							<Form.Item
+								help={
+									<div className="text-[12px] text-red-600 text-left">
+										{errors.username?.message}
+									</div>
+								}
+							>
+								<Controller
+									control={control}
+									render={({ field }) => (
+										<Input
+											size="large"
+											placeholder="ユーザー名"
+											prefix={<UserOutlined />}
+											className="rounded-sm"
+											{...field}
+										/>
+									)}
+									name="username"
+								/>
+							</Form.Item>
 
-							<Controller
-								control={control}
-								render={({ field }) => (
-									<Input.Password
-										className="mt-6 rounded-sm"
-										size="large"
-										placeholder="パスワード"
-										prefix={<UserOutlined />}
-										{...field}
-									/>
-								)}
-								name="password"
-							/>
+							<Form.Item
+								help={
+									<div className="text-[12px] text-red-600 text-left">
+										{errors.password?.message}
+									</div>
+								}
+							>
+								<Controller
+									control={control}
+									render={({ field }) => (
+										<Input.Password
+											className="rounded-sm"
+											size="large"
+											placeholder="パスワード"
+											prefix={<UserOutlined />}
+											{...field}
+										/>
+									)}
+									name="password"
+								/>
+							</Form.Item>
 						</div>
 						<div className="mt-6 text-center">
 							<Checkbox>ログイン情報を保存する</Checkbox>
