@@ -4,13 +4,15 @@ import Link from 'next/link'
 import Button from '@/components/common/button'
 import React, { useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 type IFormInput = {
 	companyName: string
 	companyNameFurigana: string
 	companyCode: string
-	representName: string
-	representNameFurigana: string
+	representerName: string
+	representerNameFurigana: string
 	postCode: string
 	province: string
 	city: string
@@ -27,8 +29,46 @@ type IFormInput = {
 }
 
 export const MemberRegisterContainer = () => {
-	const methods = useForm<IFormInput>()
-	const { control, handleSubmit } = methods
+	const schema = yup.object().shape({
+		companyName: yup.string().required('Required'),
+		companyCode: yup.string().required('Required'),
+		companyNameFurigana: yup.string().required('Required'),
+		representerName: yup.string().required('Required'),
+		representerNameFurigana: yup.string().required('Required'),
+		postCode: yup.string().required('Required'),
+		province: yup.string().required('Required'),
+		city: yup.string().required('Required'),
+		address: yup.string().required('Required'),
+		phone: yup.string().required('Required'),
+		personInChargeName: yup.string().required('Required'),
+		personInChargeNameFurigana: yup.string().required('Required'),
+		hasAdvisoryTax: yup.boolean(),
+		isGoodReporting: yup.boolean(),
+		isCorrespondCashHandling: yup.boolean(),
+		email: yup
+			.string()
+			.email('無効な電子メール')
+			.required('ユーザー名を入力してください'),
+		password: yup.string().required('パスワードを入力してください'),
+		// .min(8, 'パスワードは8文字以上でなければなりません')
+		// .max(16, 'パスワードは最大 16 文字です')
+		// .matches(
+		// 	/^(?=.*[A-Z])/,
+		// 	'パスワードには少なくとも 1 つの大文字が含まれている必要があります'
+		// ),
+	})
+
+	const methods = useForm<IFormInput>({
+		resolver: yupResolver(schema),
+	})
+	const {
+		control,
+		handleSubmit,
+		getValues,
+		formState: { errors },
+	} = methods
+
+	console.log(errors)
 
 	const onSubmit = useCallback(() => {}, [])
 	return (
@@ -58,7 +98,16 @@ export const MemberRegisterContainer = () => {
 								「会員登録(一般)」
 							</div>
 							<div className="mt-6 pr-[160px]">
-								<Form.Item label="法人名" name="companyName" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.companyName?.message}
+										</div>
+									}
+									label="法人名"
+									name="companyName"
+									required
+								>
 									<Controller
 										control={control}
 										name="companyName"
@@ -68,7 +117,16 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="フリガナ" name="companyNameFurigana" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.companyNameFurigana?.message}
+										</div>
+									}
+									label="フリガナ"
+									name="companyNameFurigana"
+									required
+								>
 									<Controller
 										control={control}
 										name="companyNameFurigana"
@@ -78,7 +136,16 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="法人番号" name="companyCode" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.companyCode?.message}
+										</div>
+									}
+									label="法人番号"
+									name="companyCode"
+									required
+								>
 									<Controller
 										control={control}
 										name="companyCode"
@@ -88,10 +155,19 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="代表者名" name="representName" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.representerName?.message}
+										</div>
+									}
+									label="代表者名"
+									name="representerName"
+									required
+								>
 									<Controller
 										control={control}
-										name="representName"
+										name="representerName"
 										render={({ field }) => (
 											<div className="flex justify-between">
 												<Input className="rounded-sm w-[49%]" {...field} />
@@ -103,12 +179,17 @@ export const MemberRegisterContainer = () => {
 
 								<Form.Item
 									label="フリガナ"
-									name="representNameFurigana"
+									name="representerNameFurigana"
 									required
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.representerNameFurigana?.message}
+										</div>
+									}
 								>
 									<Controller
 										control={control}
-										name="representNameFurigana"
+										name="representerNameFurigana"
 										render={({ field }) => (
 											<div className="flex justify-between">
 												<Input className="rounded-sm w-[49%]" {...field} />
@@ -118,7 +199,16 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="郵便番号" name="postCode" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.postCode?.message}
+										</div>
+									}
+									label="郵便番号"
+									name="postCode"
+									required
+								>
 									<Controller
 										control={control}
 										name="postCode"
@@ -151,7 +241,16 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="都道府県" name="province" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.province?.message}
+										</div>
+									}
+									label="都道府県"
+									name="province"
+									required
+								>
 									<Controller
 										control={control}
 										name="province"
@@ -165,7 +264,16 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="市区町村" name="city" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.city?.message}
+										</div>
+									}
+									label="市区町村"
+									name="city"
+									required
+								>
 									<Controller
 										control={control}
 										name="city"
@@ -179,7 +287,16 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="字名・番地" name="address" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.address?.message}
+										</div>
+									}
+									label="字名・番地"
+									name="address"
+									required
+								>
 									<Controller
 										control={control}
 										name="address"
@@ -189,7 +306,16 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="お電話番号" name="phone" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.phone?.message}
+										</div>
+									}
+									label="お電話番号"
+									name="phone"
+									required
+								>
 									<Controller
 										control={control}
 										name="phone"
@@ -205,7 +331,16 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="決算月" name="monthFinance" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.monthFinance?.message}
+										</div>
+									}
+									label="決算月"
+									name="monthFinance"
+									required
+								>
 									<Controller
 										control={control}
 										name="monthFinance"
@@ -238,6 +373,11 @@ export const MemberRegisterContainer = () => {
 									label="ご担当者名"
 									name="personInChargeName"
 									required
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.personInChargeName?.message}
+										</div>
+									}
 								>
 									<Controller
 										control={control}
@@ -255,6 +395,11 @@ export const MemberRegisterContainer = () => {
 									label="フリガナ"
 									name="personInChargeNameFurigana"
 									required
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.personInChargeNameFurigana?.message}
+										</div>
+									}
 								>
 									<Controller
 										control={control}
@@ -341,10 +486,15 @@ export const MemberRegisterContainer = () => {
 									label="ユーザー名(メールアドレス)"
 									name="username"
 									required
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.email?.message}
+										</div>
+									}
 								>
 									<Controller
 										control={control}
-										name="personInChargeNameFurigana"
+										name="email"
 										render={({ field }) => (
 											<div className="flex-col">
 												<Input className="rounded-sm mb-1" />
@@ -354,10 +504,19 @@ export const MemberRegisterContainer = () => {
 									/>
 								</Form.Item>
 
-								<Form.Item label="パスワード" name="password" required>
+								<Form.Item
+									help={
+										<div className="text-[12px] text-red-600 text-left">
+											{errors.password?.message}
+										</div>
+									}
+									label="パスワード"
+									name="password"
+									required
+								>
 									<Controller
 										control={control}
-										name="personInChargeNameFurigana"
+										name="password"
 										render={({ field }) => (
 											<div className="flex-col justify-between">
 												<Input className="rounded-sm mb-1" />
