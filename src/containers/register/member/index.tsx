@@ -42,19 +42,19 @@ export const MemberRegisterContainer = () => {
 		representerFirstName: yup
 			.string()
 			.required('このフィールドに入力してください')
-			.max(64, '64文字以内で入力してください'),
+			.max(32, '64文字以内で入力してください'),
 		representerLastName: yup
 			.string()
 			.required('このフィールドに入力してください')
-			.max(64, '64文字以内で入力してください'),
+			.max(32, '64文字以内で入力してください'),
 		representerFirstNameFurigana: yup
 			.string()
 			.required('このフィールドに入力してください')
-			.max(64, '64文字以内で入力してください'),
+			.max(32, '64文字以内で入力してください'),
 		representerLastNameFurigana: yup
 			.string()
 			.required('このフィールドに入力してください')
-			.max(64, '64文字以内で入力してください'),
+			.max(32, '64文字以内で入力してください'),
 		postCode: yup
 			.string()
 			.required('このフィールドに入力してください')
@@ -98,14 +98,14 @@ export const MemberRegisterContainer = () => {
 			}),
 		personInChargeFirstName: yup
 			.string()
-			.max(10, '10文字以内で入力してください'),
-		ersonInChargeLastName: yup.string().max(10, '10文字以内で入力してください'),
+			.max(5, '10文字以内で入力してください'),
+		personInChargeLastName: yup.string().max(5, '10文字以内で入力してください'),
 		personInChargeFirstNameFurigana: yup
 			.string()
-			.max(20, '20文字以内で入力してください'),
+			.max(10, '20文字以内で入力してください'),
 		personInChargeLastNameFurigana: yup
 			.string()
-			.max(20, '20文字以内で入力してください'),
+			.max(10, '20文字以内で入力してください'),
 		hasAdvisoryTax: yup.boolean(),
 		isGoodReporting: yup.boolean(),
 		isCorrespondingCash: yup.boolean(),
