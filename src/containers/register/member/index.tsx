@@ -1,11 +1,12 @@
-import { PreLayout } from '@/components/PreLayout'
 import { Breadcrumb, Checkbox, Divider, Form, Input, Radio, Select } from 'antd'
-import Link from 'next/link'
-import Button from '@/components/common/button'
-import React, { useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import React, { useCallback, useState } from 'react'
+import Link from 'next/link'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+
+import { PreLayout } from '@/components/PreLayout'
+import Button from '@/components/common/button'
 import { IFormInput } from './type'
 
 export const MemberRegisterContainer = () => {
@@ -96,7 +97,7 @@ export const MemberRegisterContainer = () => {
 			.max(20, '20文字以内で入力してください'),
 		hasAdvisoryTax: yup.boolean(),
 		isGoodReporting: yup.boolean(),
-		isCorrespondCashHandling: yup.boolean(),
+		isCorrespondingCash: yup.boolean(),
 		email: yup
 			.string()
 			.email('無効な電子メール')
@@ -177,8 +178,27 @@ export const MemberRegisterContainer = () => {
 	const [checkBoxValue, setCheckBoxValue] = useState<boolean>(false)
 
 	const onSubmit = useCallback(() => {
-		const data = getValues()
-		console.log(data)
+		const data: IFormInput = getValues()
+		const dataSubmit = {
+			companyName: data.companyName,
+			companyNameFurigana: data.companyNameFurigana,
+			companyCode: data.companyCode,
+			postCode: data.postCode,
+			province: data.province,
+			city: data.city,
+			address: data.address,
+			monthFinance: data.monthFinance.toString(),
+			hasAdvisoryTax: data.hasAdvisoryTax,
+			isGoodReporting: data.isGoodReporting,
+			isCorrespondingCash: data.isCorrespondingCash,
+			email: data.email,
+			password: data.password,
+			representName: `${data.representerLastName}-${data.representerFirstName}`,
+			representNameFurigana: `${data.representerLastNameFurigana}-${data.representerFirstNameFurigana}`,
+			phone: `${data.firstPhone}-${data.middlePhone}-${data.lastPhone}`,
+			personInCharge: `${data.personInChargeLastName}-${data.personInChargeFirstName}`,
+			personInChargeFurigana: `${data.personInChargeLastNameFurigana}-${data.personInChargeFirstNameFurigana}`,
+		}
 	}, [getValues])
 	console.log(errors)
 	return (
@@ -278,14 +298,14 @@ export const MemberRegisterContainer = () => {
 									<div className="flex">
 										<Controller
 											control={control}
-											name="representerFirstName"
+											name="representerLastName"
 											render={({ field }) => (
 												<Input className="rounded-sm mr-2 " {...field} />
 											)}
 										/>
 										<Controller
 											control={control}
-											name="representerLastName"
+											name="representerFirstName"
 											render={({ field }) => (
 												<Input className="rounded-sm " {...field} />
 											)}
@@ -306,14 +326,14 @@ export const MemberRegisterContainer = () => {
 									<div className="flex">
 										<Controller
 											control={control}
-											name="representerFirstNameFurigana"
+											name="representerLastNameFurigana"
 											render={({ field }) => (
 												<Input className="rounded-sm mr-2 " {...field} />
 											)}
 										/>
 										<Controller
 											control={control}
-											name="representerLastNameFurigana"
+											name="representerFirstNameFurigana"
 											render={({ field }) => (
 												<Input className="rounded-sm " {...field} />
 											)}
@@ -530,14 +550,14 @@ export const MemberRegisterContainer = () => {
 									<div className="flex">
 										<Controller
 											control={control}
-											name="personInChargeFirstName"
+											name="personInChargeLastName"
 											render={({ field }) => (
 												<Input className="rounded-sm mr-2" {...field} />
 											)}
 										/>
 										<Controller
 											control={control}
-											name="personInChargeLastName"
+											name="personInChargeFirstName"
 											render={({ field }) => (
 												<Input className="rounded-sm" {...field} />
 											)}
@@ -557,14 +577,14 @@ export const MemberRegisterContainer = () => {
 									<div className="flex">
 										<Controller
 											control={control}
-											name="personInChargeFirstNameFurigana"
+											name="personInChargeLastNameFurigana"
 											render={({ field }) => (
 												<Input className="rounded-sm mr-2" {...field} />
 											)}
 										/>
 										<Controller
 											control={control}
-											name="personInChargeLastNameFurigana"
+											name="personInChargeFirstNameFurigana"
 											render={({ field }) => (
 												<Input className="rounded-sm" {...field} />
 											)}
@@ -612,12 +632,12 @@ export const MemberRegisterContainer = () => {
 
 								<Form.Item
 									label="現金取扱業種目(現収法人)に該当"
-									name="isCorrespondCashHandling"
+									name="isCorrespondingCash"
 									required
 								>
 									<Controller
 										control={control}
-										name="isCorrespondCashHandling"
+										name="isCorrespondingCash"
 										render={({ field }) => (
 											<div className="w-full">
 												<Radio.Group defaultValue={true} {...field}>

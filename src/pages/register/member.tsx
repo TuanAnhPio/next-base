@@ -1,4 +1,4 @@
-import { MemberRegisterContainer } from '@/containers/member-register/MemberRegisterContainer'
+import { MemberRegisterContainer } from '@/containers/register/member'
 import Head from 'next/head'
 import React from 'react'
 

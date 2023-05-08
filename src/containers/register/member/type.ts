@@ -20,7 +20,7 @@ export type IFormInput = {
 	personInChargeLastNameFurigana: string
 	hasAdvisoryTax: boolean
 	isGoodReporting: boolean
-	isCorrespondCashHandling: boolean
+	isCorrespondingCash: boolean
 	email: string
 	reEnterEmail: string
 	password: string
