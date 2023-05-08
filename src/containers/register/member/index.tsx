@@ -1,4 +1,13 @@
-import { Breadcrumb, Checkbox, Divider, Form, Input, Radio, Select } from 'antd'
+import {
+	Breadcrumb,
+	Checkbox,
+	Divider,
+	Form,
+	Input,
+	Radio,
+	Select,
+	message,
+} from 'antd'
 import { Controller, useForm } from 'react-hook-form'
 import React, { useCallback, useState } from 'react'
 import Link from 'next/link'
@@ -8,6 +17,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { PreLayout } from '@/components/PreLayout'
 import Button from '@/components/common/button'
 import { IFormInput } from './type'
+import { AuthService } from '../../../../sdk-client'
+import { useRouter } from 'next/router'
 
 export const MemberRegisterContainer = () => {
 	const schema = yup.object().shape({
@@ -18,7 +29,7 @@ export const MemberRegisterContainer = () => {
 		companyCode: yup
 			.string()
 			.required('このフィールドに入力してください')
-			.max(10, '10文字以内で入力してください')
+			.min(10, '10文字以上入力してください')
 			.test('is-number-0-9', '無効な番号', (value) => {
 				if (!value) return true // Return true if the value is empty
 				const regex = /^([0-9],?)*[0-9]$/ // Regular expression to match numbers from 0 to 9
@@ -176,6 +187,7 @@ export const MemberRegisterContainer = () => {
 	const enterEmail = watch('email')
 	const enterPassword = watch('password')
 	const [checkBoxValue, setCheckBoxValue] = useState<boolean>(false)
+	const router = useRouter()
 
 	const onSubmit = useCallback(() => {
 		const data: IFormInput = getValues()
@@ -199,8 +211,16 @@ export const MemberRegisterContainer = () => {
 			personInCharge: `${data.personInChargeLastName}-${data.personInChargeFirstName}`,
 			personInChargeFurigana: `${data.personInChargeLastNameFurigana}-${data.personInChargeFirstNameFurigana}`,
 		}
-	}, [getValues])
-	console.log(errors)
+		AuthService.authControllerSignUp(dataSubmit)
+			.then((res) => {
+				router.push('/register/complete')
+			})
+			.catch((err) => {
+				if (err.body.message === 'Email already have an account.') {
+					message.error('メールには既にアカウントがあります。')
+				}
+			})
+	}, [getValues, router])
 	return (
 		<PreLayout>
 			<div className="shadow-[0_4px_4px_rgba(0,0,0,0.15)] w-[90%] h-fit py-6 px-[200px] mt-6 mb-20">
@@ -593,13 +613,14 @@ export const MemberRegisterContainer = () => {
 								</Form.Item>
 
 								<Form.Item
-									label="*顧問税理士の有無"
+									label="顧問税理士の有無"
 									name="hasAdvisoryTax"
 									required
 								>
 									<Controller
 										control={control}
 										name="hasAdvisoryTax"
+										defaultValue={true}
 										render={({ field }) => (
 											<div className="w-full">
 												<Radio.Group defaultValue={true} {...field}>
@@ -619,6 +640,7 @@ export const MemberRegisterContainer = () => {
 									<Controller
 										control={control}
 										name="isGoodReporting"
+										defaultValue={true}
 										render={({ field }) => (
 											<div className="w-full">
 												<Radio.Group defaultValue={true} {...field}>
@@ -638,6 +660,7 @@ export const MemberRegisterContainer = () => {
 									<Controller
 										control={control}
 										name="isCorrespondingCash"
+										defaultValue={true}
 										render={({ field }) => (
 											<div className="w-full">
 												<Radio.Group defaultValue={true} {...field}>

@@ -2,7 +2,7 @@ import { AccountRegisterContainer } from '@/containers/register/accountant'
 import Head from 'next/head'
 import React from 'react'
 
-const Member = () => {
+const Accountant = () => {
 	return (
 		<>
 			<Head>
@@ -15,4 +15,4 @@ const Member = () => {
 	)
 }
 
-export default Member
+export default Accountant
